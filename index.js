@@ -2,6 +2,7 @@ const express = require('express') // Import express
 const bcrypt = require('bcrypt') // Importamos bcrypt
 const session = require('express-session') // Importamos sesiones
 const db = require('./database') // Importamos db
+const dotenv = require('dotenv').config();
 
 const app = express(); // Create app
 const PORT = 3000; // Set port
@@ -70,7 +71,7 @@ app.get('/dashboard', (req, res) =>{
 })
 
 app.use(session({
-    secret: 'che_mogolico_birra_fernet_joda_boliche_cuando_sale', // Firma de la Cookie
+    secret: process.env.SESSION_SECRET, // Firma de la Cookie
     resave: false, // Dont save session if it not change
     saveUninitialized: false, // Ignore empty sessions
 }))
