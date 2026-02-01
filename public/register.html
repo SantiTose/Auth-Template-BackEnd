@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form action="http://localhost:3000/register" method="post" class="formulario">
+        <h1>Registrar cuenta</h1>
+
+        <div class="rellenar">
+            <input type="text" name="username" id="register_username" required>
+            <label>Nombre de usuario</label>
+            <span></span>
+        </div>
+        <div class="rellenar">    
+            <input type="password" minlength="6" name="password" id="register_password" required>
+            <label>Contraseña</label>
+            <span></span>
+        </div>
+        <div class="rellenar">    
+            <input type="password" minlength="6" name="repeat_password" id="repeat_password"required>
+            <label>Repetir contraseña</label>
+            <span></span>
+        </div>
+
+        <input type="submit" name="register_submit" id="register_submit" value="Iniciar sesion">
+        <div class="register">
+            <a href="login.html">Ya tengo una cuenta</a>
+        </div>
+    </form>
+</body>
+</html>

@@ -65,6 +65,7 @@ app.post('/login', (req, res) => {
 
 app.post('/forgot_password', (req, res) => {
     const { username } = req.body;
+    console.log(req.body);
 
     const token = crypto.randomBytes(35).toString('hex');
     const expires = Date.now() + 1000 * 60 * 15; // 15 minutes

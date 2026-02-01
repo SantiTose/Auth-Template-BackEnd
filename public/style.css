@@ -1,0 +1,118 @@
+body {
+    margin: 0;
+    padding: 1em;
+    font-family: montserrat;
+    background: linear-gradient(100deg, #F54927, #F0A118);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+}
+
+.formulario{
+    width: 400px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.formulario h1{
+    margin: 10px -20px 10px;
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid gray;
+    margin-bottom: 15px;
+}
+
+.formulario a{
+    color: rgb(74, 74, 236);
+    text-decoration: none;
+}
+
+.formulario a:hover{
+    text-decoration: underline;
+}
+
+.rellenar {
+    position: relative;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.rellenar input {
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #999;
+    background: transparent;
+    font-size: 16px;
+    color: black;
+    padding: 8px 4px;
+    margin: 0px 1px 10px -5px;
+}
+.rellenar label{
+    position: absolute;
+    top: 8px;
+    left: 4px;
+    color: #999;
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.4s;
+}
+
+.rellenar span::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 0px;
+    background: #6C3483;
+    transition: .4s;
+}
+
+.rellenar input:focus ~ label,
+.rellenar input:valid ~ label{
+    top: -10px;
+    font-size: 12px;
+    color: #6C3483;
+}
+
+.rellenar input:focus ~ span::before,
+.rellenar input:valid ~ span::before{
+    width: 100%;
+}
+
+.recoverpassword {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+input[type="submit"]{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #00bc44;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+input[type="button"]{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #00bc44;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.register{
+    font-size: 17px;
+    margin-top: 10px;
+    margin-bottom: 3px;
+}
