@@ -8,7 +8,7 @@ const app = express(); // Create app
 const PORT = 3000; // Set port
 
 // Read html and JSON forms
-app.use(express.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get('/', (req, res) => { // GET rute
@@ -22,11 +22,12 @@ app.listen(PORT, () => { // Start server
 // Registrer rute
 app.post('/register', async (req, res) =>{
     const { username, password, repeat_password} = req.body;
+    console.log(req.body);
     if (!username || !password || !repeat_password ){
         return res.send('Faltan datos');
     }
     if (password != repeat_password){
-        return res.send('Las contraseñas no coinciden')
+        return res.send('Las contraseñas no coinciden');
     }
     const hashedPassword = await bcrypt.hash(password, 10); // Hashea la passwd
 
@@ -43,6 +44,7 @@ app.post('/register', async (req, res) =>{
 
 // Login rute
 app.post('/login', (req, res) => {
+    
     const { username, password } = req.body;
 
     const query = `SELECT * FROM users WHERE username = ?`;
@@ -59,8 +61,6 @@ app.post('/login', (req, res) => {
         }
         res.send('Logueado exitosamente!');
     })
-
-    res.send(`User ${username} | Password: ${password}`)
 })
 
 app.get('/dashboard', (req, res) =>{
