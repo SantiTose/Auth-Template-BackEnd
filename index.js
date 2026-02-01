@@ -23,7 +23,6 @@ app.listen(PORT, () => { // Start server
 // Registrer rute
 app.post('/register', async (req, res) =>{
     const { username, password, repeat_password} = req.body;
-    console.log(req.body);
     if (!username || !password || !repeat_password ){
         return res.send('Faltan datos');
     }
@@ -81,6 +80,37 @@ app.post('/forgot_password', (req, res) => {
             console.log('Token example');
             console.log(`http://localhost:3000/reset-password.html?token=${token}`);
         });
+});
+
+app.post('/reset-password', async (req, res) =>{
+    const { token, password} = req.body;
+
+    if (!token || !password){
+        return res.json({ message: 'Datos invalidos'});
+    }
+
+    db.get(
+        `SELECT * FROM users WHERE reset_token = ? AND reset_expires > ?`,
+        [token, Date.now()],
+        async(err, user) => {
+
+            if (!user) {
+                return res.json({ message: 'Token invalido o expirado' });
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            db.run(
+                `UPDATE users
+                SET password = ?, reset_token = NULL, reset_expires = NULL
+                WHERE id = ?`,
+                [hashedPassword, user.id],
+                () => {
+                    res.json({ message: 'Contraseña actualizada correctamente'});
+                }
+            );
+        }
+    );
 });
 
 app.get('/dashboard', (req, res) =>{
