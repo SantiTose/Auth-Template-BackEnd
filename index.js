@@ -1,8 +1,9 @@
-const express = require('express') // Import express
-const bcrypt = require('bcrypt') // Importamos bcrypt
-const session = require('express-session') // Importamos sesiones
-const db = require('./database') // Importamos db
+const express = require('express'); // Import express
+const bcrypt = require('bcrypt'); // Importamos bcrypt
+const session = require('express-session'); // Importamos sesiones
+const db = require('./database'); // Importamos db
 const dotenv = require('dotenv').config();
+const crypto = require('crypto');
 
 const app = express(); // Create app
 const PORT = 3000; // Set port
@@ -62,6 +63,25 @@ app.post('/login', (req, res) => {
         res.send('Logueado exitosamente!');
     })
 })
+
+app.post('/forgot_password', (req, res) => {
+    const { username } = req.body;
+
+    const token = crypto.randomBytes(35).toString('hex');
+    const expires = Date.now() + 1000 * 60 * 15; // 15 minutes
+
+    db.run(
+        `UPDATE users SET reset_token = ?, reset_expires = ? WHERE username = ?`,
+        [token, expires, username],
+        // Respuesta siempre igual
+        function () {
+            res.json({
+                message: 'Si el usuario existe, se envio un enlace de recuperacion'
+            });
+            console.log('Token example');
+            console.log(`http://localhost:3000/reset-password.html?token=${token}`);
+        });
+});
 
 app.get('/dashboard', (req, res) =>{
     if (!req.session.userID){
