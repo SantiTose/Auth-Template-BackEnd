@@ -10,7 +10,7 @@ button.addEventListener('click', async () => {
         return;
     }
 
-    const response = await fetch("http://localhost:3000/forgot_password", {
+    const response = await fetch("http://localhost:3000/forgot-password", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

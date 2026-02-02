@@ -70,7 +70,7 @@ app.post('/login', (req, res) => {
     })
 })
 
-app.post('/forgot_password', (req, res) => {
+app.post('/forgot-password', (req, res) => {
     const { username } = req.body;
     console.log(req.body);
 
