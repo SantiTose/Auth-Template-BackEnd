@@ -1,3 +1,4 @@
+console.log("forgot.js cargado");
 const params = new URLSearchParams(window.location.search); // lee a partir de ?token=
 const token = params.get('token'); // guarda solo el token lo que esta despues del =
 
@@ -5,7 +6,7 @@ const button = document.getElementById('resetBtn');
 const message = document.getElementById('message');
 
 button.addEventListener('click', async () =>{
-    const passwd = document.getElementById('password').value;
+    const password = document.getElementById('password').value;
     const repeat = document.getElementById('repeat_password').value;
 
     if (!password || !repeat){

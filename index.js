@@ -4,9 +4,13 @@ const session = require('express-session'); // Importamos sesiones
 const db = require('./database'); // Importamos db
 const dotenv = require('dotenv').config();
 const crypto = require('crypto');
+const path = require('path');
+
 
 const app = express(); // Create app
 const PORT = 3000; // Set port
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Read html and JSON forms
 app.use(express.urlencoded({ extended: true }));
