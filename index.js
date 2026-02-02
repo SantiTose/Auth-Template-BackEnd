@@ -121,6 +121,41 @@ app.post('/reset-password', async (req, res) =>{
     );
 });
 
+app.post('/change-password', requireLogin, async (req, res) => {
+    const {currentPassword, newPassword} = req.body;
+
+    if (!currentPassword || !newPassword){
+        return res.json({message: "Missing arguments"});
+    }
+
+    db.get(
+        'SELECT * FROM users WHERE id = ?',
+        [req.session.userId],
+        async (err, user) => {
+
+        const match = await bcrypt.compare(currentPassword, user.password);
+
+        if (!match){
+            return res.json({message: 'Current password is incorrect'});
+        }
+        else{
+            if (currentPassword == newPassword){
+                return res.json({message: "You can't use to the same password. Change it!"});
+            }
+        }
+
+        const hashed = await bcrypt.hash(newPassword, 10);
+
+        db.run(
+            'UPDATE users SET password = ? WHERE id = ?',
+            [hashed, user.id],
+            () => {
+                res.json({message: 'Password updated!'});
+            }
+        );
+    });
+});
+
 app.get('/dashboard', requireLogin, (req, res) =>{
     res.json({
         message: 'Bienvenido a su cuenta',
