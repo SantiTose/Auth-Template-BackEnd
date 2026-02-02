@@ -156,6 +156,25 @@ app.post('/change-password', requireLogin, async (req, res) => {
     });
 });
 
+app.post('/change-user', requireLogin, async(req,res) =>{
+    const {newUser} = req.body;
+
+    if (!newUser){
+        return res.json({message: 'Missing arguments'});
+    }
+
+    db.run(
+        'UPDATE users SET username = ? WHERE id = ?'
+        [newUser, req.session.userId],
+        function (err) {
+            if (err){
+                return res.json({message: 'Name is not avaliable'});
+            }
+            res.json({message: 'User updated!'});
+        }
+    );
+});
+
 app.get('/dashboard', requireLogin, (req, res) =>{
     res.json({
         message: 'Bienvenido a su cuenta',
