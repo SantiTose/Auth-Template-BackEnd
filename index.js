@@ -175,6 +175,12 @@ app.post('/change-user', requireLogin, async(req,res) =>{
     );
 });
 
+app.post("/logout", (req, res) => {
+    req.session.destroy(() =>{
+        res.json({ message: 'Sesion cerrada'});
+    });
+});
+
 app.get('/dashboard', requireLogin, (req, res) =>{
     res.json({
         message: 'Bienvenido a su cuenta',
