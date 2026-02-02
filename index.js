@@ -5,7 +5,7 @@ const db = require('./database'); // Importamos db
 const dotenv = require('dotenv').config();
 const crypto = require('crypto');
 const path = require('path');
-
+const requireLogin = require('./auth');
 
 const app = express(); // Create app
 const PORT = 3000; // Set port
@@ -121,12 +121,12 @@ app.post('/reset-password', async (req, res) =>{
     );
 });
 
-app.get('/dashboard', (req, res) =>{
-    if (!req.session.userID){
-        return res.status(401).send('Not autorized');
-    }
-    res.send(`Welcome ${req.session.username}`);
-})
+app.get('/dashboard', requireLogin, (req, res) =>{
+    res.json({
+        message: 'Bienvenido a su cuenta',
+        userId: req.session.userId
+    });
+});
 
 app.use(session({
     secret: process.env.SESSION_SECRET, // Firma de la Cookie
