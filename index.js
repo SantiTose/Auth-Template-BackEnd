@@ -63,6 +63,9 @@ app.post('/login', (req, res) => {
         if (!validPassword){
             return res.send('El usuario y la contraseña no coinciden!');
         }
+
+        req.session.userID = user.id;
+
         res.send('Logueado exitosamente!');
     })
 })
