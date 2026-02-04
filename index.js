@@ -6,6 +6,7 @@ const dotenv = require('dotenv').config();
 const crypto = require('crypto');
 const path = require('path');
 const requireLogin = require('./auth');
+console.log('requireLogin:', requireLogin);
 
 const app = express(); // Create app
 const PORT = 3000; // Set port
@@ -19,6 +20,14 @@ app.use(express.json());
 app.get('/', (req, res) => { // GET rute
     res.send("Backend funcionando!");
 });
+
+app.use(session({
+    secret: process.env.SESSION_SECRET, // Firma de la Cookie
+    resave: false, // Dont save session if it not change
+    saveUninitialized: false, // Ignore empty sessions
+}))
+// en criollo, mientras el navegador guarde la cookie que se envia
+// tu sesion se manteiene abierta
 
 app.listen(PORT, () => { // Start server
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
@@ -64,7 +73,7 @@ app.post('/login', (req, res) => {
             return res.send('El usuario y la contraseña no coinciden!');
         }
 
-        req.session.userID = user.id;
+        req.session.userId = user.id;
 
         res.send('Logueado exitosamente!');
     })
@@ -164,7 +173,7 @@ app.post('/change-user', requireLogin, async(req,res) =>{
     }
 
     db.run(
-        'UPDATE users SET username = ? WHERE id = ?'
+        'UPDATE users SET username = ? WHERE id = ?',
         [newUser, req.session.userId],
         function (err) {
             if (err){
@@ -188,10 +197,3 @@ app.get('/dashboard', requireLogin, (req, res) =>{
     });
 });
 
-app.use(session({
-    secret: process.env.SESSION_SECRET, // Firma de la Cookie
-    resave: false, // Dont save session if it not change
-    saveUninitialized: false, // Ignore empty sessions
-}))
-// en criollo, mientras el navegador guarde la cookie que se envia
-// tu sesion se manteiene abierta
